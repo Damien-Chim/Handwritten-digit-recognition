@@ -26,7 +26,7 @@ def process_data():
 
 
     # *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-    label = int(data.get('lab'))
+    # label = int(data.get('lab'))
     
 
 
@@ -65,17 +65,17 @@ def process_data():
 
     
     # *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-    imagesArray = np.load('imagesArray.npy')
-    labelsArray = np.load('labelsArray.npy')
+    # imagesArray = np.load('imagesArray.npy')
+    # labelsArray = np.load('labelsArray.npy')
 
-    flat = pixels.flatten()
+    # flat = pixels.flatten()
 
-    imagesArray = np.append(imagesArray, np.array([flat]), axis=0)
-    labelsArray = np.append(labelsArray, np.array([dic[label]]), axis = 0)
+    # imagesArray = np.append(imagesArray, np.array([flat]), axis=0)
+    # labelsArray = np.append(labelsArray, np.array([dic[label]]), axis = 0)
 
-    np.save('imagesArray', imagesArray)
-    np.save('labelsArray', labelsArray)
-    print("saved")
+    # np.save('imagesArray', imagesArray)
+    # np.save('labelsArray', labelsArray)
+    # print("saved")
     
 
 

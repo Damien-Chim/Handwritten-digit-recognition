@@ -120,7 +120,7 @@ function submit() {
     console.log(a_values);
 
     // *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-    label = window.prompt("number you wrote");
+    //label = window.prompt("number you wrote");
 
 
     sendDataToPython(a_values);
@@ -136,10 +136,10 @@ async function sendDataToPython(a_values) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            // body: JSON.stringify({ pix: jsVariable }),
+            body: JSON.stringify({ pix: jsVariable }),
 
             // *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-            body: JSON.stringify({ pix: jsVariable, lab: label }),
+            //body: JSON.stringify({ pix: jsVariable, lab: label }),
 
 
         });
