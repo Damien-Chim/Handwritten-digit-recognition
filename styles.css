@@ -3,5 +3,35 @@
     width: 150px;
     border: 1px solid blue;
     touch-action: none;
+    background: white;
+}
 
+body {
+    text-align: center;
+    background-color: #ffe6c9;
+    background:linear-gradient(to right,#e2e2e2,#fffac9);   
+}
+
+#clear, #submit {
+    /* dimensions */
+    height: 40px;
+
+    /* fonts */
+    font-size: 25px;
+
+    /* border design */
+    border-radius: 5px;
+    background-color: #FDDC5C;
+
+    /* others */
+    transition: 0.5s;
+    opacity: 0.7;
+}
+#submit:hover, #clear:hover {
+    background-color: #FDB515;
+    opacity: 1;
+}
+
+#displayResultElement {
+    font-size: 25px;
 }

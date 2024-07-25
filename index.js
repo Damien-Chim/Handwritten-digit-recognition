@@ -6,9 +6,8 @@ const submitButton = document.getElementById('submit')
 const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
-
-console.log(canvasOffsetX)
-console.log(canvasOffsetY)
+console.log(`x: ${canvasOffsetX}`)
+console.log(`y: ${canvasOffsetY}`)
 // canvas.width = window.innerWidth - canvasOffsetX;
 // canvas.height = window.innerHeight - canvasOffsetY;
 
@@ -53,7 +52,7 @@ const draw = (e) => {
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
 
-    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
+    ctx.lineTo(e.pageX - canvasOffsetX, e.pageY - canvasOffsetY);
     ctx.stroke();
 }
 
@@ -78,8 +77,8 @@ canvas.addEventListener('pointermove', draw);
 
 clearButton.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var resultDiv = document.getElementById('result')
-    resultDiv.remove()
+    var resultDiv = document.getElementById('displayResultElement')
+    resultDiv.innerHTML = ""
     
 })
 
@@ -93,8 +92,8 @@ addEventListener("keydown", (event) => {
     if (event.ctrlKey === true && event.key === 'z') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        var resultDiv = document.getElementById('result')
-        resultDiv.remove()
+        var resultDiv = document.getElementById('displayResultElement')
+        resultDiv.innerHTML = ""
     }
 })
 
@@ -120,16 +119,17 @@ function submit() {
     console.log(a_values);
 
     // *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-    //label = window.prompt("number you wrote");
+    // label = window.prompt("number you wrote");
 
 
     sendDataToPython(a_values);
 }
 
 async function sendDataToPython(a_values) {
+    document.getElementById('displayResultElement').innerHTML = "Analysing your handwriting..."
     const jsVariable = a_values; // Your JavaScript variable
     const url = 'http://localhost:5000/process_data'; // Replace with your server URL
-
+    
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -139,7 +139,7 @@ async function sendDataToPython(a_values) {
             body: JSON.stringify({ pix: jsVariable }),
 
             // *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-            //body: JSON.stringify({ pix: jsVariable, lab: label }),
+            // body: JSON.stringify({ pix: jsVariable, lab: label }),
 
 
         });
@@ -150,10 +150,8 @@ async function sendDataToPython(a_values) {
 
         const jsonResponse = await response.json();
         console.log('Response from Python:', jsonResponse);
-        var result = document.createElement('div')
-        result.setAttribute('id', 'result')
-        result.innerHTML = "You wrote " + jsonResponse.prediction
-        document.body.appendChild(result)
+        document.getElementById('displayResultElement').innerHTML = "Prediction: " + jsonResponse.prediction
+
     } catch (error) {
         console.error('Error sending data to Python:', error);
     }

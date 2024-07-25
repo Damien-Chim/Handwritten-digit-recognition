@@ -23,7 +23,7 @@ biasesHiddenToOutputLayer = np.zeros((10, 1))
 learningRate = 0.01
 
 # Epoch - number of time to pass through all the samples
-epochs = 200
+epochs = 175
 
 # number of correct guesses
 numberOfCorrectGuesses = 0

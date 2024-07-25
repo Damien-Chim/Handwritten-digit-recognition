@@ -1,1 +1,0 @@
-label = int(data.get('lab'))
