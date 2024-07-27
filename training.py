@@ -7,8 +7,8 @@ import streamlit as st
 # Initialisation
 
 # Images and respective labels
-images = np.load('imagesArray.npy')
-labels = np.load('labelsArray.npy')
+images = np.load('imagesArray_175by175.npy')
+labels = np.load('labelsArray_175by175.npy')
 # imagesTest, labelsTest = get_mnist2()
 
 # Weights
@@ -23,7 +23,7 @@ biasesHiddenToOutputLayer = np.zeros((10, 1))
 learningRate = 0.01
 
 # Epoch - number of time to pass through all the samples
-epochs = 175
+epochs = 150
 
 # number of correct guesses
 numberOfCorrectGuesses = 0
@@ -66,7 +66,7 @@ for i in range(epochs):
     print(f"Acc: {round((numberOfCorrectGuesses / images.shape[0]) * 100, 2)}%")
     numberOfCorrectGuesses = 0
 
-np.save('weights_I_H2', weightsInputToHiddenLayer)
-np.save('weights_H_O2', weightsHiddenToOutputLayer)
-np.save('biases_I_H2', biasesInputToHiddenLayer)
-np.save('biases_H_O2', biasesHiddenToOutputLayer)
+np.save('weights_I_H_175by175', weightsInputToHiddenLayer)
+np.save('weights_H_O_175by175', weightsHiddenToOutputLayer)
+np.save('biases_I_H_175by175', biasesInputToHiddenLayer)
+np.save('biases_H_O_175by175', biasesHiddenToOutputLayer)

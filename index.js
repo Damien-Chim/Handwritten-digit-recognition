@@ -6,43 +6,13 @@ const submitButton = document.getElementById('submit')
 const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
-console.log(`x: ${canvasOffsetX}`)
-console.log(`y: ${canvasOffsetY}`)
-// canvas.width = window.innerWidth - canvasOffsetX;
-// canvas.height = window.innerHeight - canvasOffsetY;
-
-canvas.width = parseInt("150px")
-canvas.height = parseInt("150px")
+canvas.width = parseInt("175px")
+canvas.height = parseInt("175px")
 
 let isPainting = false;
 let lineWidth = 10;
 let startX;
 let startY;
-
-// toolbar.addEventListener('click', e => {
-//     if (e.target.id === 'clear') {
-//         ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     }
-// });
-
-
-
-
-
-// toolbar.addEventListener('change', e => {
-//     if(e.target.id === 'stroke') {
-//         ctx.strokeStyle = e.target.value;
-//     }
-
-//     if(e.target.id === 'lineWidth') {
-//         lineWidth = e.target.value;
-//     }
-    
-// });
-
-
-
-
 
 const draw = (e) => {
     if(!isPainting) {
@@ -55,11 +25,6 @@ const draw = (e) => {
     ctx.lineTo(e.pageX - canvasOffsetX, e.pageY - canvasOffsetY);
     ctx.stroke();
 }
-
-
-
-
-
 
 canvas.addEventListener('pointerdown', (e) => {
     isPainting = true;
@@ -116,18 +81,12 @@ function submit() {
     for (i = 3; i < scannedData.length; i += 4) {
         a_values.push(scannedData[i] / 255);
     }
-    console.log(a_values);
-
-    // *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-    // label = window.prompt("number you wrote");
-
 
     sendDataToPython(a_values);
 }
 
 async function sendDataToPython(a_values) {
     document.getElementById('displayResultElement').innerHTML = "Analysing your handwriting..."
-    const jsVariable = a_values; // Your JavaScript variable
     const url = 'http://localhost:5000/process_data'; // Replace with your server URL
     
     try {
@@ -136,12 +95,7 @@ async function sendDataToPython(a_values) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ pix: jsVariable }),
-
-            // *$*$*$*$*$*$* ENABLE FOR TESTING *$*$*$*$*$*$*
-            // body: JSON.stringify({ pix: jsVariable, lab: label }),
-
-
+            body: JSON.stringify({ pixels: a_values }),
         });
 
         if (!response.ok) {
@@ -149,7 +103,6 @@ async function sendDataToPython(a_values) {
         }
 
         const jsonResponse = await response.json();
-        console.log('Response from Python:', jsonResponse);
         document.getElementById('displayResultElement').innerHTML = "Prediction: " + jsonResponse.prediction
 
     } catch (error) {

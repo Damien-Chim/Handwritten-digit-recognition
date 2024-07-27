@@ -1,6 +1,6 @@
 #canvas {
-    height: 150px;
-    width: 150px;
+    height: 175px;
+    width: 175px;
     border: 1px solid blue;
     touch-action: none;
     background: white;
@@ -34,4 +34,10 @@ body {
 
 #displayResultElement {
     font-size: 25px;
+}
+
+#disclaimer {
+    font-size: 10px;
+    color: gray;
+    opacity: 0.5;
 }
