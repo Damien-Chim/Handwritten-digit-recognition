@@ -3,6 +3,7 @@ from flask_cors import CORS
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
+import json
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
@@ -10,7 +11,7 @@ CORS(app)  # Enable CORS for all routes
 def process_data():
     data = request.get_json()
     pixels = data.get('pixels')
-
+    
     pixels = np.array(pixels)
     pixels = pixels.reshape(175, 175)
     pixels = cv2.resize(pixels, (28, 28))
@@ -40,6 +41,27 @@ def process_data():
     pred = int(outputLayerOutputAfterActivation.argmax())
     response_data = {'prediction': pred}
     return jsonify(response_data)
+
+@app.route('/user_reports', methods=['POST'])
+def user_reports():
+    data = request.get_json()
+    actualNumber = data.get('actualNumber')
+    pixels = data.get('pixels')
+    toSave = {actualNumber: pixels}
+    saveDataToJson(toSave)
+    
+    return jsonify({"Reponse from python": "Successfully wrote user report to file"})
+
+def saveDataToJson(toSave):
+    with open("userReports.json", "r") as fp:
+        currentJson = json.load(fp)
+
+    currentJson.append(toSave)
+
+    with open("userReports.json", "w") as fp:
+        json.dump(currentJson, fp)
+
+    return
 
 if __name__ == '__main__':
     app.run(debug=True)

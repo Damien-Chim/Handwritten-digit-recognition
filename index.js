@@ -13,7 +13,7 @@ let isPainting = false;
 let lineWidth = 10;
 let startX;
 let startY;
-
+let a_values;
 const draw = (e) => {
     if(!isPainting) {
         return;
@@ -41,9 +41,7 @@ canvas.addEventListener('pointerup', e => {
 canvas.addEventListener('pointermove', draw);
 
 clearButton.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var resultDiv = document.getElementById('displayResultElement')
-    resultDiv.innerHTML = ""
+    clear()
     
 })
 
@@ -55,10 +53,7 @@ submitButton.addEventListener('click', () => {
 
 addEventListener("keydown", (event) => {
     if (event.ctrlKey === true && event.key === 'z') {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        var resultDiv = document.getElementById('displayResultElement')
-        resultDiv.innerHTML = ""
+        clear();
     }
 })
 
@@ -74,16 +69,35 @@ addEventListener('keydown', (event) => {
     }
 })
 
+function clear() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var resultDiv = document.getElementById('displayResultElement');
+    resultDiv.innerHTML = "";
+    document.getElementById("askForClarification").style.display = 'none';
+}
+
 function submit() {
     var scannedImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
     scannedData = scannedImage.data;
-    var a_values = [];
+    a_values = [];
     for (i = 3; i < scannedData.length; i += 4) {
         a_values.push(scannedData[i] / 255);
     }
 
     sendDataToPython(a_values);
 }
+
+const reportButton = document.getElementById('reportButton')
+reportButton.addEventListener('click', () => {
+    var trueNumber = window.prompt("What should be the correct number?")
+    if (trueNumber != null) {
+        sendReportToPython(trueNumber, a_values)
+        clear()
+    }
+    
+    
+    
+})
 
 async function sendDataToPython(a_values) {
     document.getElementById('displayResultElement').innerHTML = "Analysing your handwriting..."
@@ -104,9 +118,35 @@ async function sendDataToPython(a_values) {
 
         const jsonResponse = await response.json();
         document.getElementById('displayResultElement').innerHTML = "Prediction: " + jsonResponse.prediction
+        document.getElementById('askForClarification').style.display = 'block'
 
     } catch (error) {
         console.error('Error sending data to Python:', error);
     }
 }
 
+async function sendReportToPython(trueNumber, a_values) {
+    const url = 'http://localhost:5000/user_reports'; // Replace with your server URL
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({actualNumber: trueNumber, pixels: a_values }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const jsonResponse = await response.json();
+        console.log(jsonResponse)
+        alert("Your report has been received, thank you!")
+        return
+
+    } catch (error) {
+        console.error('Error sending data to Python:', error);
+    }
+}

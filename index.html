@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Digit Recognition Model</title>
     <link rel="stylesheet" href="styles.css">
     
 </head>
 <body>
     <h1>Handwritten digit recognition deep learning model</h1>
     <h3>This is a deep learning model that uses artificial neural networks to process and predict human written digits</h3>
+
     <h2>Do you know?</h2>
     <h3>Recognising numbers is something that humans can do as early as the age of two, but do you know it's actually very difficult for computers to do so?</h3>
     <h3>Hence, complicated algorithms such as activation functions, loss functions and back propagation needs to be implemented in order to "teach" computers to read numbers</h3>
+
     <h2>Try it out!</h2>
     <h3>Write any digits from 0-9 (one at a time) and press the Submit button. Your handwriting will be processed and the model will predict what you wrote</h3>
     <h3>You can experiment with different handwritings, the model should still be able to analyse your handwriting</h3>
+
     <h3>
         Some tips to obtain the best results:
     </h3>
@@ -26,6 +29,7 @@
     <br>
     <li>Avoid writing too big or too small, moderate sized handwriting is recommended (you know it :) )</li>
     <br>
+
     <div id="disclaimer">Disclaimer: this model is still under training hence it is not totally perfect, yet. </div>
     <br>
     <div id="canvasContainer">
@@ -37,8 +41,13 @@
     <br>
     <br>
     
-    <div id="displayResultElement"></div>
-
+    <div id="resultAndClarificationElement">
+        <div id="displayResultElement"></div>
+        <div id="askForClarification" style="display: none;">
+            Wrong answer? You can <button id="reportButton">Report</button>
+        </div>
+    </div>
+    
     <br>
     <br>
     
